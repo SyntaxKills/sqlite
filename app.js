@@ -100,9 +100,11 @@ function renderResults(results) {
 
 async function initialize() {
   try {
-    if (typeof initSqlJs !== "function") throw new Error("sql.js não foi encontrado. Verifique a pasta node_modules/sql.js.");
+    if (typeof initSqlJs !== "function") {
+      throw new Error("Não foi possível carregar o script sql.js pela CDN.");
+    }
     const SQL = await initSqlJs({
-      locateFile: file => `./node_modules/sql.js/dist/${file}`
+      locateFile: file => `https://cdn.jsdelivr.net/npm/sql.js@1.15.2/dist/${file}`
     });
     db = new SQL.Database();
     db.run("PRAGMA foreign_keys = ON;");
