@@ -1,63 +1,66 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="theme-color" content="#080d18" />
-  <title>SQL Console — SQLite</title>
-  <link rel="stylesheet" href="style.css" />
-  <script src="vendor/sql.js/sql-wasm.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#080d18">
+  <title>SQLite Studio — sql.js</title>
+  <link rel="stylesheet" href="./style.css">
+  <script src="./node_modules/sql.js/dist/sql-wasm.js"></script>
+  <script defer src="./app.js"></script>
 </head>
 <body>
   <main class="container">
     <header class="topbar">
       <div class="brand-mark">SQL</div>
       <div>
-        <h1>SQLite Console</h1>
-        <p>Ambiente SQL local · sql.js / WebAssembly</p>
+        <p class="eyebrow">SQLITE IN-BROWSER</p>
+        <h1>SQLite <span>Studio</span></h1>
+        <p class="subtitle">Execute consultas SQL diretamente no navegador.</p>
       </div>
-      <span id="dbStatus" class="status"><i></i> Inicializando</span>
+      <div class="runtime"><span class="status-dot" id="statusDot"></span><span id="statusText">Iniciando motor...</span></div>
     </header>
 
-    <section class="workspace">
-      <div class="section-heading">
-        <div><span class="eyebrow">EDITOR</span><h2>Consulta SQL</h2></div>
-        <span class="file-label"><span class="file-dot"></span> code.sql</span>
+    <section class="panel editor-panel">
+      <div class="panel-heading">
+        <div><span class="file-icon">▤</span><strong>code.sql</strong><span class="muted">· Editor SQL</span></div>
+        <span class="shortcut">Ctrl + Enter para executar</span>
       </div>
-      <div class="editor">
-        <div class="line-numbers" id="lineNumbers">1</div>
-        <div class="editor-content">
-          <pre id="highlightLayer" aria-hidden="true"></pre>
-          <textarea id="sqlInput" spellcheck="false" autocapitalize="off" autocomplete="off" autocorrect="off" aria-label="Editor SQL">CREATE TABLE alunos (
-  id INTEGER PRIMARY KEY,
-  nome TEXT,
-  curso TEXT
+      <div class="editor-shell">
+        <pre id="highlightLayer" aria-hidden="true"></pre>
+        <textarea id="sqlInput" spellcheck="false" autocapitalize="off" autocomplete="off" autocorrect="off" aria-label="Editor SQL">CREATE TABLE Usuario (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  nome VARCHAR(50) NOT NULL,
+  idade INTEGER,
+  sexo CHAR(10)
 );
 
-INSERT INTO alunos (nome, curso)
-VALUES ('Ana', 'ADS'), ('Carlos', 'ADS');
+INSERT INTO Usuario (nome, idade, sexo) VALUES
+  ('Ana', 20, 'Feminino'),
+  ('Carlos', 22, 'Masculino'),
+  ('Mariana', 19, 'Feminino');
 
-SELECT * FROM alunos;</textarea>
-        </div>
+SELECT * FROM Usuario;</textarea>
       </div>
-      <div class="actions">
-        <button id="runBtn" class="run-button" disabled><span>▶</span> Run</button>
-        <button id="clearBtn" class="secondary-button">Limpar saída</button>
-        <span class="shortcut">Ctrl + Enter para executar</span>
+      <div class="editor-footer">
+        <span id="editorStats">SQL · UTF-8</span>
+        <div class="actions">
+          <button class="btn-secondary" id="resetBtn" type="button">Restaurar exemplo</button>
+          <button class="btn-run" id="runBtn" type="button" disabled><span>▶</span> Run</button>
+        </div>
       </div>
     </section>
 
-    <section class="results-section">
-      <div class="section-heading">
-        <div><span class="eyebrow">TERMINAL</span><h2>Resultado</h2></div>
-        <span class="terminal-label">OUTPUT</span>
+    <section class="panel result-panel">
+      <div class="panel-heading result-heading">
+        <div><span class="terminal-icon">›_</span><strong>Resultado</strong></div>
+        <button class="btn-clear" id="clearBtn" type="button">Limpar saída</button>
       </div>
       <div id="output" class="console-output" aria-live="polite">
         <div class="console-line info">Inicializando SQLite WebAssembly...</div>
       </div>
     </section>
-    <footer>SQLite no navegador · Seus comandos são executados localmente neste dispositivo.</footer>
+    <footer>SQLite executado localmente com <strong>sql.js 1.15.2</strong> · Seus comandos rodam neste navegador.</footer>
   </main>
-  <script src="app.js"></script>
 </body>
 </html>

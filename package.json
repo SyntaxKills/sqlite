@@ -1,6 +1,6 @@
 {
-  "name": "sqlite-console-uninove",
-  "version": "1.1.0",
+  "name": "SQLite - UNINOVE",
+  "version": "1.0.0",
   "private": true,
   "type": "module",
   "scripts": {
